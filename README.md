@@ -4,11 +4,9 @@ This package includes a Django widget for displaying date pickers with Bootstrap
 
 ## Install
 
-    pip install django-bootstrap-datepicker
-
-## To-Do
-
-    General cleanup and testing
+    git clone https://github.com/sharma0611/django-bootstrap-datepicker
+    cd django-bootstrap-datepicker
+    pip install .
 
 ## Example
 
