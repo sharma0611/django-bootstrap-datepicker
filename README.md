@@ -15,7 +15,7 @@ This package includes a Django widget for displaying date pickers with Bootstrap
 #### forms.py
 
 ```python
-from bootstrap_datepicker.widgets import DatePicker
+from pretty_bootstrap_datepicker.widgets import DatePicker
 from django import forms
 
 class ToDoForm(forms.Form):
@@ -29,6 +29,29 @@ class ToDoForm(forms.Form):
             }
         )
     )
+```
+
+### filters.py
+
+This repo is forked from https://github.com/pbucher/django-bootstrap-datepicker. In this fork, I've added the ability to use the widget as a filter. 
+
+The following code snippet shows how to use the datepicker widget to select a range of dates and use as a filter with django-filter.
+
+```python
+import django_filters
+from .models import Agent
+
+from bootstrap_datepicker.widgets import PrettyRangeWidget
+
+class AgentFilter(django_filters.FilterSet):
+    agent_name = django_filters.CharFilter(lookup_expr='iexact')
+    date_joined = django_filters.DateFromToRangeFilter(widget=PrettyRangeWidget(attrs={'placeholder': 'mm/dd/yyyy'}))
+    class Meta:
+        model = Agent
+        fields = {
+            'agent_phone_number': ['exact'],
+            'position': ['exact'],
+        }
 ```
 
 The `options` will be passed to the JavaScript datepicker instance, and are documented and demonstrated here:
