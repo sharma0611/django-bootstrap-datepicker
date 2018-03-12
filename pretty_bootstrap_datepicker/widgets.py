@@ -7,9 +7,10 @@ from django.utils.safestring import mark_safe
 from django.utils import translation
 from django.utils.html import conditional_escape
 from django.utils.encoding import force_text
-
+from django.forms import MultiWidget
 
 class DatePicker(DateTimeInput):
+    template_name = "bootstrap_datepicker/datepicker.html"
     class Media:
         class JSFiles(object):
             def __iter__(self):
@@ -115,7 +116,7 @@ class DatePicker(DateTimeInput):
         input_attrs = self.build_attrs(attrs, extra_attrs)
         if value != '':
             # Only add the 'value' attribute if a value is non-empty.
-            input_attrs['value'] = force_text(self._format_value(value))
+            input_attrs['value'] = force_text(self.format_value(value))
         input_attrs = {key: conditional_escape(val) for key, val in input_attrs.items()}
         if not self.picker_id:
             self.picker_id = (input_attrs.get('id', '') + '_pickers').replace(' ', '_')
@@ -131,3 +132,36 @@ class DatePicker(DateTimeInput):
         else:
             js = ''
         return mark_safe(force_text(html + js))
+
+    def get_context(self, name, value, attrs):
+        context = {}
+        context['widget'] = {
+            'name': name,
+            'is_hidden': self.is_hidden,
+            'required': self.is_required,
+            'value': self.format_value(value),
+            'attrs': self.build_attrs(self.attrs, attrs),
+            'template_name': self.template_name,
+        }
+        context['widget']['type'] = self.input_type
+        html = self.render(name, context['widget']['value'], context['widget']['attrs'])
+        context['widget']['html'] = html
+        return context
+
+
+class PrettyRangeWidget(MultiWidget):
+    template_name = 'django_filters/widgets/multiwidget.html'
+
+    def __init__(self, attrs=None):
+        widgets = (DatePicker(options={"format":"mm/dd/yyyy"}), DatePicker(options={"format":"mm/dd/yyyy"}))
+        super(PrettyRangeWidget, self).__init__(widgets, attrs)
+
+    def format_output(self, rendered_widgets):
+        # Method was removed in Django 1.11.
+        return '-'.join(rendered_widgets)
+
+    def decompress(self, value):
+        if value:
+            return [value.start, value.stop]
+        return [None, None]
+

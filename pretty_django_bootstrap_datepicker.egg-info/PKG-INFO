@@ -1,0 +1,20 @@
+Metadata-Version: 1.1
+Name: pretty-django-bootstrap-datepicker
+Version: 1.2.3
+Summary: Bootstrap 3/4 compatible datepicker for Django projects.
+Home-page: https://github.com/sharma0611/django-bootstrap-datepicker
+Author: Paul Bucher, Shivam Sharma
+Author-email: paulb@lctcb.org sharma.shivam0611@gmail.com
+License: Apache License 2.0
+Description-Content-Type: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Utilities
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
